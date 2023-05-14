@@ -23,14 +23,13 @@ export function WeatherReport({ cityObject }) {
                 longitude: cityObject.longitude,
               })
           );
-
           const responseData = await weatherResponse.json();
-
           if (responseData.data) {
             setWeatherData(responseData.data);
           }
         } catch (error) {
           setLoadingFailed(true);
+          console.log("Error !", error);
         } finally {
           setLoading(false);
         }
@@ -60,10 +59,10 @@ export function WeatherReport({ cityObject }) {
                     ></WeatherIcon>
                   </h4>
                   <h4>
-                    {" "}
+                    Updated On{" "}
                     {new Date(
                       weatherData.current_weather.time
-                    ).toLocaleString()}{" "}
+                    ).toLocaleString()}
                   </h4>
                   <h4>
                     {weatherData.current_weather.temperature} Celsius /{" "}
