@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { APIConfig } from "../../config";
 
-export function CitySearchBox({citySelectionCallback}) {
+export function CitySearchBox({ citySelectionCallback }) {
   const searchDebounceTimeMS = 1000;
   const [citySearchTerm, setCitySearchTerm] = useState("Bengaluru");
   const [searchingCity, setSearchingCity] = useState(false);
   const [citySearchResults, setCitySearchResults] = useState([]);
+  const [loadingFailed, setLoadingFailed] = useState(false);
 
   const searchTextChangeHandler = (event) => {
     const value = event.target.value;
@@ -33,10 +34,11 @@ export function CitySearchBox({citySelectionCallback}) {
   const searchResultClickHandler = (event, resultData) => {
     event.preventDefault();
     citySelectionCallback(resultData);
-    setCitySearchTerm('');
-  }
+    setCitySearchTerm("");
+  };
 
   useEffect(() => {
+    setLoadingFailed(false);
     const timeoutID = setTimeout(async () => {
       setCitySearchResults([]);
       setSearchingCity(true);
@@ -54,6 +56,7 @@ export function CitySearchBox({citySelectionCallback}) {
           updatecitySearchResultsFromResponse(responseData.data.results);
         }
       } catch (error) {
+        setLoadingFailed(true);
         console.log("Error !", error);
       } finally {
         setSearchingCity(false);
@@ -75,13 +78,17 @@ export function CitySearchBox({citySelectionCallback}) {
 
       {citySearchTerm && (
         <div id="city-search-result">
-          {searchingCity && <div>Searching...</div>}
+          {loadingFailed && <div>Failed Loading Data...</div>}
+          {!loadingFailed && searchingCity && <div>Searching...</div>}
 
-          {!searchingCity && citySearchResults.length > 0 && (
+          {!loadingFailed && !searchingCity && citySearchResults.length > 0 && (
             <div>
               {citySearchResults.map((data, idx) => (
                 <div key={idx}>
-                  <a href="#" onClick={(event) => searchResultClickHandler(event, data)}>
+                  <a
+                    href="#"
+                    onClick={(event) => searchResultClickHandler(event, data)}
+                  >
                     {`${data.city}, ${data.country}, (${data.latitude}, ${data.longitude})`}
                   </a>
                 </div>

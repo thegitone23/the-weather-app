@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { APIConfig } from "../../config";
 import { WeatherIcon } from "./WeatherIcon";
-import { celsiusToFahrenheit, weatherFromCode } from "../utils/weather";
 import { WeeksForecast } from "./WeeksForecast";
+import { celsiusToFahrenheit, weatherFromCode } from "../utils/weather";
+import { APIConfig } from "../../config";
 
 export function WeatherReport({ cityObject }) {
   const [weatherData, setWeatherData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [loadingFailed, setLoadingFailed] = useState(false);
 
   useEffect(() => {
+    setLoadingFailed(false);
     if (cityObject) {
       const timeoutID = setTimeout(async () => {
         setLoading(true);
@@ -28,7 +30,7 @@ export function WeatherReport({ cityObject }) {
             setWeatherData(responseData.data);
           }
         } catch (error) {
-          console.log("Error !", error);
+          setLoadingFailed(true);
         } finally {
           setLoading(false);
         }
@@ -39,8 +41,9 @@ export function WeatherReport({ cityObject }) {
 
   return (
     <>
-      {loading && <h4>Loading ...</h4>}
-      {!loading && (
+      {loadingFailed && <h4>Failed Fetching Data</h4>}
+      {!loadingFailed && loading && <h4>Loading ...</h4>}
+      {!loadingFailed && !loading && (
         <>
           {cityObject && (
             <div>
