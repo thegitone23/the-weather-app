@@ -4,7 +4,7 @@ const axios = require("axios");
 const router = express.Router();
 
 router.get("/search", async (req, res) => {
-  const name = req.query.city || "Bangalore";
+  const name = req.query.city || "";
   try {
     const response = await axios.get(
       "https://geocoding-api.open-meteo.com/v1/search",
