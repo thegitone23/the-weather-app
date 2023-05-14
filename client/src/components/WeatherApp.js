@@ -4,9 +4,9 @@ import { WeatherReport } from "./WeatherReport";
 
 export function WeatherApp() {
 
-  [cityObject, setCityObject] = useState(undefined);
+  [cityObject, setCityObject] = useState(undefined); // maintains the selected city object
 
-  citySelectionCallback = (cityObject) => {
+  citySelectionCallback = (cityObject) => { // used to update the selected city from the child component
     setCityObject(cityObject);
   }
 

@@ -1,3 +1,4 @@
+// Choosing which icon to be used based on the weather code
 import { useEffect, useState } from "react";
 import { weatherFromCode } from "../utils/weather";
 import ClearDay from "../../assets/static/day.svg";

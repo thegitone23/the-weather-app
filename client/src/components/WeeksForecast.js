@@ -1,3 +1,4 @@
+// Renders weather predictions for the next 7 days
 import { weatherFromCode, celsiusToFahrenheit } from "../utils/weather";
 
 export function WeeksForecast({ weeksData }) {

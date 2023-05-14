@@ -1,3 +1,4 @@
+// Fetches and renders the weather forecast for a city
 import { useEffect, useState } from "react";
 import { WeatherIcon } from "./WeatherIcon";
 import { WeeksForecast } from "./WeeksForecast";
@@ -5,9 +6,9 @@ import { celsiusToFahrenheit, weatherFromCode } from "../utils/weather";
 import { APIConfig } from "../../config";
 
 export function WeatherReport({ cityObject }) {
-  const [weatherData, setWeatherData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [loadingFailed, setLoadingFailed] = useState(false);
+  const [weatherData, setWeatherData] = useState({}); // maintains the weather data for the selected city
+  const [loading, setLoading] = useState(false); // tracks if the request is still going on
+  const [loadingFailed, setLoadingFailed] = useState(false); // tracks if the request has failed or not
 
   useEffect(() => {
     setLoadingFailed(false);

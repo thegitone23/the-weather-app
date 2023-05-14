@@ -1,12 +1,13 @@
+// Renders the city search box and the list to select the city
 import { useEffect, useState } from "react";
 import { APIConfig } from "../../config";
 
 export function CitySearchBox({ citySelectionCallback }) {
   const searchDebounceTimeMS = 1000;
-  const [citySearchTerm, setCitySearchTerm] = useState("Bengaluru");
-  const [searchingCity, setSearchingCity] = useState(false);
-  const [citySearchResults, setCitySearchResults] = useState([]);
-  const [loadingFailed, setLoadingFailed] = useState(false);
+  const [citySearchTerm, setCitySearchTerm] = useState("Bengaluru"); // tracks the current term being searched
+  const [searchingCity, setSearchingCity] = useState(false); // tracks if the query is still going on
+  const [citySearchResults, setCitySearchResults] = useState([]); // maintains the results obtained after the search
+  const [loadingFailed, setLoadingFailed] = useState(false); // tracks wether a request had failed or not
 
   const searchTextChangeHandler = (event) => {
     const value = event.target.value;
@@ -37,6 +38,7 @@ export function CitySearchBox({ citySelectionCallback }) {
     setCitySearchTerm("");
   };
 
+  // debounce / throttle requests by a fixed ammount of time when search term changes
   useEffect(() => {
     setLoadingFailed(false);
     const timeoutID = setTimeout(async () => {
